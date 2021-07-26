@@ -16,9 +16,14 @@ const users = [
   }
 ]
 
-const refreshTokens = []
+let refreshTokens = []
 
 app.use(express.json())
+
+app.delete('/logout', (req, res) => {
+  refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+  res.status(204).send()
+})
 
 app.post('/token', (req, res) => {
   const refreshToken = req.body.token
