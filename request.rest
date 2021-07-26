@@ -2,9 +2,11 @@ GET http://localhost:3010/users
 
 ###
 
-GET http://localhost:3010/posts
+POST http://localhost:3010/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJwYXNzd29yZCI6IiQyYiQxMCRkdk9FZE94OHEwV1ouSHdFQXdmNWkudGZIQ08vbzRvVFFuOFRxN3pXbTl0dlJGZERlYXh0cSIsImlhdCI6MTYyNzMyNTk0N30.qMRsbQY_J3FchNQqfm0efaTwaKCQqP-n7OVVW5Kc0QQ
 
 ### 
+
 POST http://localhost:3010/users
 Content-Type: application/json
 
@@ -15,10 +17,10 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3010/users/login
+POST http://localhost:3010/login
 Content-Type: application/json
 
 {
-  "username": "aap",
+  "username": "gijs",
   "password": "apekop"
 }
