@@ -1,0 +1,24 @@
+GET http://localhost:3010/users
+
+###
+
+GET http://localhost:3010/posts
+
+### 
+POST http://localhost:3010/users
+Content-Type: application/json
+
+{
+  "username": "aap",
+  "password": "apekop"
+}
+
+###
+
+POST http://localhost:3010/users/login
+Content-Type: application/json
+
+{
+  "username": "aap",
+  "password": "apekop"
+}
