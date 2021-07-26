@@ -32,7 +32,6 @@ app.post('/token', (req, res) => {
     if (err) {
       return res.status(403).send()
     }
-
     const accessToken = generateAccessToken({ username: user.username })
     res.json({ accessToken })
   })
@@ -50,7 +49,6 @@ app.post('/users', async (req, res) => {
       password: hashed
     }
     users.push(user)
-    console.log(hashed)
     res.status(201).send()
   } catch(err) {
     console.log(err)
