@@ -16,7 +16,27 @@ const users = [
   }
 ]
 
+const refreshTokens = []
+
 app.use(express.json())
+
+app.post('/token', (req, res) => {
+  const refreshToken = req.body.token
+  if (!refreshToken) {
+    return res.status(401).send()
+  }
+  if (!refreshTokens.includes(refreshToken)) {
+    return res.status(403).send()
+  }
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).send()
+    }
+
+    const accessToken = generateAccessToken({ username: user.username })
+    res.json({ accessToken })
+  })
+})
 
 app.get('/users', (req, res) => {
   res.send(users)
@@ -45,8 +65,11 @@ app.post('/login', async (req, res) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-      res.json({ accessToken })
+      const accessToken = generateAccessToken(user)
+      const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+      refreshTokens.push(refreshToken)
+      req.body.token = refreshToken
+      res.json({ accessToken, refreshToken })
     } else {
       res.send('Not allowed')
     }
@@ -55,5 +78,11 @@ app.post('/login', async (req, res) => {
     res.status(500).send()
   }
 })
+
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: '30s'
+  })
+}
 
 app.listen(3011)
