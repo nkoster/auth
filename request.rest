@@ -3,7 +3,7 @@ GET http://localhost:3011/users
 ###
 
 POST http://localhost:3010/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJwYXNzd29yZCI6IiQyYiQxMCRkdk9FZE94OHEwV1ouSHdFQXdmNWkudGZIQ08vbzRvVFFuOFRxN3pXbTl0dlJGZERlYXh0cSIsImlhdCI6MTYyNzMyNzE3Nn0.3T1x6fG7V9k3l1P1jc6ofgIguzpCWJh_EhiFsnB9uRo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJpYXQiOjE2MjczMzA1MzYsImV4cCI6MTYyNzMzMDU2Nn0.gOpvGprU8D0vmyaAVnAC2ps5lcOyHE13xet7iD9AOFM
 
 ### 
 
@@ -23,4 +23,13 @@ Content-Type: application/json
 {
   "username": "gijs",
   "password": "apekop"
+}
+
+###
+
+POST http://localhost:3011/token
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJwYXNzd29yZCI6IiQyYiQxMCRkdk9FZE94OHEwV1ouSHdFQXdmNWkudGZIQ08vbzRvVFFuOFRxN3pXbTl0dlJGZERlYXh0cSIsImlhdCI6MTYyNzMzMDQ2M30.HMmnV9_bB-m96Wzkf856duSKzu2lFERo-v0gsZJGgf0"
 }
