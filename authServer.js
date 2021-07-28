@@ -25,7 +25,9 @@ app.use(express.json())
 
 app.delete('/logout', (req, res) => {
   refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-  res.status(204).send()
+  // res.status(204).send()
+  res.redirect('/login')
+  console.log(req.body.token)
 })
 
 app.post('/token', (req, res) => {
@@ -67,7 +69,7 @@ app.post('/users', async (req, res) => {
 app.post('/login', async (req, res) => {
   const user = users.find(user => user.username === req.body.username)
   if (!user) {
-    return res.status(400).send('No such user')
+    return res.status(400).send({ error: 'No such user' })
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
@@ -77,7 +79,7 @@ app.post('/login', async (req, res) => {
       req.body.token = refreshToken
       res.json({ accessToken, refreshToken })
     } else {
-      res.send('Not allowed')
+      res.status(400).send({ error: 'Not allowed' })
     }
   } catch(err) {
     console.log(err)
@@ -87,7 +89,7 @@ app.post('/login', async (req, res) => {
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: '30s'
+    expiresIn: '30m'
   })
 }
 
