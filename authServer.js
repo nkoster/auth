@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -17,6 +18,8 @@ const users = [
 ]
 
 let refreshTokens = []
+
+app.use(cors())
 
 app.use(express.json())
 
