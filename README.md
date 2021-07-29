@@ -27,7 +27,7 @@ systemctl --user enable authService
 systemctl --user start authService
 ```
 
-**ci.sh** does the systemctl stop and start for you, after copying a new version of authService.js:
+**ci.sh** does the systemctl stop and start for you, after a change in authServer.js:
 
 ```
 #!/bin/bash
