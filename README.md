@@ -2,7 +2,7 @@
 
 ```
 cd apps
-git clone https://github.com/nkoster/auth```
+git clone https://github.com/nkoster/auth
 cd auth
 npm i
 ```
