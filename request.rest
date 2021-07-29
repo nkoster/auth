@@ -3,7 +3,7 @@ GET http://localhost:3011/users
 ###
 
 POST http://localhost:3010/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJwYXNzd29yZCI6IiQyYiQxMCRkdk9FZE94OHEwV1ouSHdFQXdmNWkudGZIQ08vbzRvVFFuOFRxN3pXbTl0dlJGZERlYXh0cSIsImlhdCI6MTYyNzMzMTg4MywiZXhwIjoxNjI3MzMxOTEzfQ.VpYNjdCDxV6NFQxcuZ4EhZh294cRCX0RLPT269d8UmI
+Authorization: Bearer 
 
 ### 
 
@@ -31,7 +31,7 @@ POST http://localhost:3011/token
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJwYXNzd29yZCI6IiQyYiQxMCRkdk9FZE94OHEwV1ouSHdFQXdmNWkudGZIQ08vbzRvVFFuOFRxN3pXbTl0dlJGZERlYXh0cSIsImlhdCI6MTYyNzMzMTg4M30.DERfUdcV_TXP8_d608_aZLIfQ7CpngKrRvELkmMwx1A"
+  "token": ""
 }
 
 ###
@@ -40,5 +40,5 @@ DELETE http://localhost:3011/logout
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdpanMiLCJwYXNzd29yZCI6IiQyYiQxMCRkdk9FZE94OHEwV1ouSHdFQXdmNWkudGZIQ08vbzRvVFFuOFRxN3pXbTl0dlJGZERlYXh0cSIsImlhdCI6MTYyNzMzMTg4M30.DERfUdcV_TXP8_d608_aZLIfQ7CpngKrRvELkmMwx1A"
+  "token": ""
 }
