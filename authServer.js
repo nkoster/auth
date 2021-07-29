@@ -19,7 +19,7 @@ let refreshTokens = []
 app.use(express.json())
 
 app.post('/logout', (req, res) => {
-  console.log(`Logout ${req.body.username}`)
+  console.log(`Logout ${req.body.username}.`)
   refreshTokens = refreshTokens.filter(token => token != req.body.token)
   res.redirect('/')
 })
@@ -63,7 +63,7 @@ app.post('/adduser', async (req, res) => {
       }
       users.push(user)
       updateUsers()
-      console.log('User added.')
+      console.log(`User ${user.username} added.`)
       res.status(201).send()
     } catch(err) {
       console.log(err)
@@ -109,7 +109,7 @@ app.post('/deleteuser', (req, res) => {
 })
 
 function generateAccessToken(user) {
-  console.log(`New token for ${user.username}`)
+  console.log(`New token for ${user.username}.`)
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '30m'
   })
