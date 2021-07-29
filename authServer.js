@@ -30,8 +30,9 @@ let refreshTokens = []
 app.use(express.json())
 
 app.post('/logout', (req, res) => {
+  console.log(`Logout ${req.body.username}`)
   refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-  res.redirect('/login')
+  res.redirect('/')
 })
 
 app.post('/token', (req, res) => {
