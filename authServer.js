@@ -3,7 +3,7 @@ require('dotenv').config()
 const API_PORT = process.env.API_PORT || 3011
 
 const express = require('express')
-const cors = require('cors')
+// const cors = require('cors')
 const app = express()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -21,7 +21,7 @@ const users = [
 
 let refreshTokens = []
 
-app.use(cors())
+// app.use(cors())
 
 app.use(express.json())
 
@@ -91,6 +91,7 @@ app.post('/login', doLogin)
 app.get('/login', doLogin)
 
 function generateAccessToken(user) {
+  console.log('KEY', process.env.ACCESS_TOKEN_SECRET)
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '30m'
   })
