@@ -39,3 +39,12 @@ do
     ssh palermo 'systemctl --user start auth_w3b_net.service'
 done
 ```
+
+## .env
+
+Create a **.env** file with your keys:
+
+```
+ACCESS_TOKEN_SECRET=secretz
+REFRESH_TOKEN_SECRET=moresecretz
+```
