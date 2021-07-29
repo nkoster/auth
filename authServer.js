@@ -20,7 +20,7 @@ app.use(express.json())
 
 app.post('/logout', (req, res) => {
   console.log(`Logout ${req.body.username}`)
-  refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+  refreshTokens = refreshTokens.filter(token => token != req.body.token)
   res.redirect('/')
 })
 
@@ -115,4 +115,4 @@ function generateAccessToken(user) {
   })
 }
 
-app.listen(API_PORT, _ => console.log(`authServer running @ port ${API_PORT}`))
+app.listen(API_PORT, _ => console.log(`authServer running at port ${API_PORT}`))
