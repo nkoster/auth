@@ -7,21 +7,13 @@ if (process.env.REFRESH_TOKEN_SECRET) {
 const API_PORT = process.env.API_PORT || 3011
 
 const express = require('express')
+const fs = require('fs')
 // const cors = require('cors')
 const app = express()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const users = [
-  {
-    username: 'aap',
-    password: '$2b$10$mMlIogWghogG8MaMRQhzGONRMrOTRUgzPcsDHAnpZ1WACp5tsIOIa'
-  },
-  {
-    username: 'gijs',
-    password: '$2b$10$dvOEdOx8q0WZ.HwEAwf5i.tfHCO/o4oTQn8Tq7zWm9tvRFdDeaxtq'
-  }
-]
+let users = require('./db.json')
 
 let refreshTokens = []
 
@@ -64,6 +56,10 @@ app.post('/users', async (req, res) => {
       password: hashed
     }
     users.push(user)
+    fs.writeFile('./db.json', JSON.stringify(users), err => {
+      if (err) throw err;
+      console.log('User added.')
+    })
     res.status(201).send()
   } catch(err) {
     console.log(err)
@@ -84,7 +80,7 @@ const doLogin = async (req, res) => {
       req.body.token = refreshToken
       res.json({ accessToken, refreshToken })
     } else {
-      res.status(400).send({ error: 'Not allowed' })
+      res.status(200).send({ error: 'Not allowed' })
     }
   } catch(err) {
     console.log(err)
