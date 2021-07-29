@@ -1,5 +1,9 @@
 require('dotenv').config()
 
+if (process.env.REFRESH_TOKEN_SECRET) {
+  console.log('Private keys loaded.')
+}
+
 const API_PORT = process.env.API_PORT || 3011
 
 const express = require('express')
@@ -91,10 +95,10 @@ app.post('/login', doLogin)
 app.get('/login', doLogin)
 
 function generateAccessToken(user) {
-  console.log('KEY', process.env.ACCESS_TOKEN_SECRET)
+  console.log(`New token for ${user.username}`)
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '30m'
   })
 }
 
-app.listen(API_PORT, _ => console.log(`authServer running at port ${API_PORT}`))
+app.listen(API_PORT, _ => console.log(`authServer running @ port ${API_PORT}`))
