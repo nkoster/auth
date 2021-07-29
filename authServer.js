@@ -52,27 +52,33 @@ const updateUsers = _ => {
 }
 
 app.post('/users', async (req, res) => {
-  try {
-    const hashed = await bcrypt.hash(req.body.password, 10)
-    const user = {
-      username: req.body.username,
-      password: hashed,
-      group: req.body.group
-    }
-    users.push(user)
-    updateUsers()
-    console.log('User added.')
-    res.status(201).send()
-  } catch(err) {
-    console.log(err)
-    res.status(500).send()
+  const exists = users.find(u => u.username === req.body.username)
+  if (!exists) {
+    try {
+      const hashed = await bcrypt.hash(req.body.password, 10)
+      const user = {
+        username: req.body.username,
+        password: hashed,
+        group: req.body.group
+      }
+      users.push(user)
+      updateUsers()
+      console.log('User added.')
+      res.status(201).send()
+    } catch(err) {
+      console.log(err)
+      res.status(500).send()
+    }  
+  } else {
+    console.log(`${exists.username} already exists.`)
+    res.status(200).send({ error: 'User already exists' })
   }
 })
 
 const doLogin = async (req, res) => {
   const user = users.find(user => user.username === req.body.username)
   if (!user) {
-    return res.status(400).send({ error: 'No such user' })
+    return res.status(200).send({ error: 'No such user' })
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
@@ -80,7 +86,7 @@ const doLogin = async (req, res) => {
       const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
       refreshTokens.push(refreshToken)
       req.body.token = refreshToken
-      res.json({ accessToken, refreshToken })
+      res.json({ accessToken, refreshToken, group: user.group })
     } else {
       res.status(200).send({ error: 'Not allowed' })
     }
