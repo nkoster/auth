@@ -1,10 +1,12 @@
+require('dotenv').config()
+
+const API_PORT = process.env.API_PORT || 3011
+
 const express = require('express')
 const cors = require('cors')
 const app = express()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
-require('dotenv').config()
 
 const users = [
   {
@@ -23,11 +25,9 @@ app.use(cors())
 
 app.use(express.json())
 
-app.delete('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-  // res.status(204).send()
   res.redirect('/login')
-  console.log(req.body.token)
 })
 
 app.post('/token', (req, res) => {
@@ -66,7 +66,7 @@ app.post('/users', async (req, res) => {
   }
 })
 
-app.post('/login', async (req, res) => {
+const doLogin = async (req, res) => {
   const user = users.find(user => user.username === req.body.username)
   if (!user) {
     return res.status(400).send({ error: 'No such user' })
@@ -85,7 +85,9 @@ app.post('/login', async (req, res) => {
     console.log(err)
     res.status(500).send()
   }
-})
+}
+
+app.post('/login', doLogin)
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
@@ -93,4 +95,4 @@ function generateAccessToken(user) {
   })
 }
 
-app.listen(3011)
+app.listen(API_PORT, _ => console.log(`authServer running at port ${API_PORT}`))
