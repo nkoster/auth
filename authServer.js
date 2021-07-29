@@ -51,7 +51,7 @@ const updateUsers = _ => {
   })
 }
 
-app.post('/users', async (req, res) => {
+app.post('/adduser', async (req, res) => {
   const exists = users.find(u => u.username === req.body.username)
   if (!exists) {
     try {
@@ -98,7 +98,7 @@ const doLogin = async (req, res) => {
 
 app.post('/login', doLogin)
 
-app.post('/delete', (req, res) => {
+app.post('/deleteuser', (req, res) => {
   const user = users.find(user => user.username === req.body.username)
   if (user) {
     users = users.filter(u => u.username != req.body.username)
