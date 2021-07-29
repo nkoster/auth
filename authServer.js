@@ -88,6 +88,7 @@ const doLogin = async (req, res) => {
 }
 
 app.post('/login', doLogin)
+app.get('/login', doLogin)
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
