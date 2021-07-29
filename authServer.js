@@ -8,7 +8,6 @@ const API_PORT = process.env.API_PORT || 3011
 
 const express = require('express')
 const fs = require('fs')
-// const cors = require('cors')
 const app = express()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -16,8 +15,6 @@ const jwt = require('jsonwebtoken')
 let users = require('./db.json')
 
 let refreshTokens = []
-
-// app.use(cors())
 
 app.use(express.json())
 
@@ -48,18 +45,23 @@ app.get('/users', (req, res) => {
   res.send(users)
 })
 
+const updateUsers = _ => {
+  fs.writeFile('./db.json', JSON.stringify(users), err => {
+    if (err) throw err
+  })
+}
+
 app.post('/users', async (req, res) => {
   try {
     const hashed = await bcrypt.hash(req.body.password, 10)
     const user = {
       username: req.body.username,
-      password: hashed
+      password: hashed,
+      group: req.body.group
     }
     users.push(user)
-    fs.writeFile('./db.json', JSON.stringify(users), err => {
-      if (err) throw err;
-      console.log('User added.')
-    })
+    updateUsers()
+    console.log('User added.')
     res.status(201).send()
   } catch(err) {
     console.log(err)
@@ -89,7 +91,16 @@ const doLogin = async (req, res) => {
 }
 
 app.post('/login', doLogin)
-app.get('/login', doLogin)
+
+app.post('/delete', (req, res) => {
+  const user = users.find(user => user.username === req.body.username)
+  if (user) {
+    users = users.filter(u => u.username != req.body.username)
+    updateUsers()
+    console.log(`User ${user.username} deleted.`)
+    res.send({ message: 'User deleted'})
+  }
+})
 
 function generateAccessToken(user) {
   console.log(`New token for ${user.username}`)
