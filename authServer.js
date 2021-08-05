@@ -41,8 +41,8 @@ app.post('/token', (req, res) => {
   })
 })
 
-app.get('/users', (req, res) => {
-  res.send(users)
+app.post('/users', (req, res) => {
+  res.send(users.map(u => u.username))
 })
 
 const updateUsers = _ => {
