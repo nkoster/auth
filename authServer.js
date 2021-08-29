@@ -75,6 +75,16 @@ app.post('/adduser', async (req, res) => {
   }
 })
 
+app.use('/verify', (req, res) => {
+  const token = req.body.token
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, err => {
+    if (err) {
+      return res.status(200).send({ result: false })
+    }
+    return res.status(200).send({ result: true })
+  })
+})
+
 const doLogin = async (req, res) => {
   const user = users.find(user => user.username === req.body.username)
   if (!user) {
@@ -82,6 +92,7 @@ const doLogin = async (req, res) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
+      console.log(`Login user ${user.username}`)
       const accessToken = generateAccessToken(user)
       const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
       refreshTokens.push(refreshToken)
@@ -109,10 +120,13 @@ app.post('/deleteuser', (req, res) => {
 })
 
 function generateAccessToken(user) {
-  console.log(`New token for ${user.username}.`)
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '10m'
   })
 }
+
+process.on('uncaughtException', err => {
+  console.log('Caught exception: ' + err)
+})
 
 app.listen(API_PORT, _ => console.log(`authServer running at port ${API_PORT}`))
